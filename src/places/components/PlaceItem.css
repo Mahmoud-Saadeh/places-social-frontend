@@ -106,6 +106,10 @@
   padding: 10px;
   /* transition: all 1s ease; */
 }
+.place-item_interaction button div {
+  display: flex;
+  align-items: center;
+}
 .place-item_interaction button:focus {
   outline: none;
 }
@@ -176,7 +180,7 @@
   padding: 0.2rem 0rem 0.2rem 0.8rem;
   color: #333;
 }
-.drop-down li a {
+.drop-down a {
   color: #333;
   text-decoration: none;
 }

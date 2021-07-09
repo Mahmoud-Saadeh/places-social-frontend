@@ -1,15 +1,14 @@
-import React, { useEffect, useState, useContext } from "react";
-import PlaceList from "../components/PlaceList";
-import { useParams } from "react-router-dom";
-import { useHttpClient } from "../../shared/hooks/http-hook";
-import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import { AuthContext } from "../../shared/context/auth-context";
+import React, { useEffect, useState } from 'react';
+import PlaceList from '../components/PlaceList';
+import { useParams } from 'react-router-dom';
+import { useHttpClient } from '../../shared/hooks/http-hook';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { getPostsByUser } from "../../actions/posts";
-import { getUsers } from "../../actions/users";
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { getPostsByUser } from '../../actions/posts';
+import { getUsers } from '../../actions/users';
 
 // var axios = require("axios");
 // const DUMMY_PLACES = [
@@ -36,9 +35,7 @@ import { getUsers } from "../../actions/users";
 // ];
 
 const UserPlaces = () => {
-  const [loadedUsers, setLoadedUsers] = useState();
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
-  const auth = useContext(AuthContext);
+  const { error, clearError } = useHttpClient();
   const [isLoadingMe, setIsLoadingMe] = useState();
 
   const userId = useParams().userId;

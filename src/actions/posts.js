@@ -4,8 +4,9 @@ import {
   UPDATE,
   LIKE,
   CREATE,
-} from "../constants/actionTypes";
-var axios = require("axios");
+} from '../constants/actionTypes';
+// var axios = require('axios');
+import axios from 'axios';
 
 // import * as api from "../api";
 
@@ -24,7 +25,7 @@ export const getPosts = () => async (dispatch) => {
       })
       .catch(function (error) {
         if (axios.isCancel(error)) {
-          console.log("Request canceled", error.message);
+          console.log('Request canceled', error.message);
         } else {
           console.log(error);
         }
@@ -46,11 +47,12 @@ export const getPostsByUser = (userId, setIsLoadingMe) => async (dispatch) => {
       })
       .then(function (response) {
         const data = response.data.places;
+        console.log(data);
         dispatch({ type: FETCH_ALL, payload: data });
       })
       .catch(function (error) {
         if (axios.isCancel(error)) {
-          console.log("Request canceled", error.message);
+          console.log('Request canceled', error.message);
         } else {
           console.log(error);
         }
@@ -65,10 +67,10 @@ export const getPostsByUser = (userId, setIsLoadingMe) => async (dispatch) => {
 export const createPost = (formData, token) => async (dispatch) => {
   const CancelToken = axios.CancelToken;
   const source = CancelToken.source();
-
+  console.log(formData.description);
   axios
     .post(
-      process.env.REACT_APP_BACKEND_URL + "/places",
+      process.env.REACT_APP_BACKEND_URL + '/places',
       formData,
       {
         headers: {
@@ -84,7 +86,7 @@ export const createPost = (formData, token) => async (dispatch) => {
     })
     .catch(function (error) {
       if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
+        console.log('Request canceled', error.message);
       } else {
         console.log(error);
       }
@@ -112,7 +114,7 @@ export const updatePost = (postUpdates, token, placeId) => async (dispatch) => {
     })
     .catch(function (error) {
       if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
+        console.log('Request canceled', error.message);
       } else {
         console.log(error);
       }
@@ -139,7 +141,7 @@ export const deletePost = (id, token) => async (dispatch) => {
     })
     .catch(function (error) {
       if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
+        console.log('Request canceled', error.message);
       } else {
         console.log(error);
       }
@@ -167,7 +169,7 @@ export const likePost = (id, token, userId) => async (dispatch) => {
     })
     .catch(function (error) {
       if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
+        console.log('Request canceled', error.message);
       } else {
         console.log(error);
       }

@@ -1,40 +1,40 @@
-import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
-import Input from "../../shared/components/FormElements/Input";
-import Button from "../../shared/components/FormElements/Button";
-import ImageUpload from "../../shared/components/FormElements/ImageUpload";
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import Input from '../../shared/components/FormElements/Input';
+import Button from '../../shared/components/FormElements/Button';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
-} from "../../shared/util/validators";
-import { useForm } from "../../shared/hooks/form-hook";
-import { useHttpClient } from "../../shared/hooks/http-hook";
-import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import { AuthContext } from "../../shared/context/auth-context";
-import { useDispatch } from "react-redux";
-import { createPost } from "../../actions/posts";
+} from '../../shared/util/validators';
+import { useForm } from '../../shared/hooks/form-hook';
+import { useHttpClient } from '../../shared/hooks/http-hook';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import { AuthContext } from '../../shared/context/auth-context';
+import { useDispatch } from 'react-redux';
+import { createPost } from '../../actions/posts';
 
-import "./PlaceForm.css";
+import './PlaceForm.css';
 
 const NewPlaces = () => {
   const auth = useContext(AuthContext);
   const history = useHistory();
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const { isLoading, error, clearError } = useHttpClient();
   const dispatch = useDispatch();
 
   const [formState, inputHandler] = useForm(
     {
       title: {
-        value: "",
+        value: '',
         isValid: false,
       },
       description: {
-        value: "",
+        value: '',
         isValid: false,
       },
       address: {
-        value: "",
+        value: '',
         isValid: false,
       },
       imagePlace: {
@@ -49,13 +49,14 @@ const NewPlaces = () => {
   const placeSubmitHandler = async (event) => {
     event.preventDefault();
     try {
+      console.log(formState.inputs.imagePlace.value);
       const formData = new FormData();
-      formData.append("title", formState.inputs.title.value);
-      formData.append("description", formState.inputs.description.value);
-      formData.append("address", formState.inputs.address.value);
+      formData.append('title', formState.inputs.title.value);
+      formData.append('description', formState.inputs.description.value);
+      formData.append('address', formState.inputs.address.value);
 
       // formData.append("creator", auth.userId);
-      formData.append("imagePlace", formState.inputs.imagePlace.value); //the 'image' here has to be image because of the backend
+      formData.append('imagePlace', formState.inputs.imagePlace.value); //the 'image' here has to be image because of the backend
 
       dispatch(createPost(formData, auth.token));
 

@@ -1,25 +1,24 @@
-import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 
-import Card from "../../shared/components/UIElements/Card";
-import Button from "../../shared/components/FormElements/Button";
-import Modal from "../../shared/components/UIElements/Modal";
-import Map from "../../shared/components/UIElements/Map";
-import { AuthContext } from "../../shared/context/auth-context";
-import { useHttpClient } from "../../shared/hooks/http-hook";
-import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import Avatar from "../../shared/components/UIElements/Avatar";
-import moment from "moment";
-import { useDispatch } from "react-redux";
-import { likePost, deletePost } from "../../actions/posts";
+import Card from '../../shared/components/UIElements/Card';
+import Button from '../../shared/components/FormElements/Button';
+import Modal from '../../shared/components/UIElements/Modal';
+import Map from '../../shared/components/UIElements/Map';
+import { AuthContext } from '../../shared/context/auth-context';
+import { useHttpClient } from '../../shared/hooks/http-hook';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import Avatar from '../../shared/components/UIElements/Avatar';
+import moment from 'moment';
+import { useDispatch } from 'react-redux';
+import { likePost, deletePost } from '../../actions/posts';
+import { FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa';
 
-import { ReactComponent as Like } from "../../shared/svg/like.svg";
-import { ReactComponent as LikeFilled } from "../../shared/svg/like filled.svg";
-import "./PlaceItem.css";
+import './PlaceItem.css';
 
 const PlaceItem = (props) => {
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const { isLoading, error, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
   const [showMap, setShowMap] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -56,31 +55,32 @@ const PlaceItem = (props) => {
   // }, [sendRequest, placeId, setFormData]);
 
   const Likes = () => {
+    console.log(props);
     const likenum = props.likes;
     if (likenum) {
       if (likenum.length > 0) {
         return likenum.find((like) => like === auth.userId) ? (
-          <>
-            <LikeFilled />
+          <div>
+            <FaThumbsUp fontSize="large" />
             &nbsp;
             {likenum.length > 2
               ? `You and ${likenum.length - 1} others`
-              : `${likenum.length} like${likenum.length > 1 ? "s" : ""}`}
-          </>
+              : `${likenum.length} like${likenum.length > 1 ? 's' : ''}`}
+          </div>
         ) : (
-          <>
-            <Like />
-            &nbsp;{likenum.length} {likenum.length === 1 ? "Like" : "Likes"}
-          </>
+          <div>
+            <FaRegThumbsUp fontSize="large" />
+            &nbsp;{likenum.length} {likenum.length === 1 ? 'Like' : 'Likes'}
+          </div>
         );
       }
     }
 
     return (
-      <>
-        <Like />
+      <React.Fragment>
+        <FaRegThumbsUp fontSize="large" />
         &nbsp;Like
-      </>
+      </React.Fragment>
     );
   };
 
@@ -93,8 +93,8 @@ const PlaceItem = (props) => {
   };
   const dropDownHandler = (e) => {
     if (
-      e.target.classList.contains("btn-settings") ||
-      e.target.classList.contains("dot")
+      e.target.classList.contains('btn-settings') ||
+      e.target.classList.contains('dot')
     ) {
       setShowSettings(!showSettings);
     } else {
@@ -145,7 +145,7 @@ const PlaceItem = (props) => {
         footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
       >
         <div className="map-container">
-          <Map center={props.coordinates} zoom={16} />
+          <Map center={props.coordinates} id={props.id} zoom={16} />
         </div>
       </Modal>
       <Modal
@@ -196,15 +196,13 @@ const PlaceItem = (props) => {
                   </div>
                   {showSettings && (
                     <ul className="drop-down">
+                      <Link
+                        onClick={dropDownHandler}
+                        to={`/places/${props.id}`}
+                      >
+                        <li>EDIT</li>
+                      </Link>
                       <li onClick={showDeleteWarningHandler}>Delete</li>
-                      <li>
-                        <Link
-                          onClick={dropDownHandler}
-                          to={`/places/${props.id}`}
-                        >
-                          EDIT
-                        </Link>
-                      </li>
                     </ul>
                   )}
                 </React.Fragment>

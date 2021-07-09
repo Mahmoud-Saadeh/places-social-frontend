@@ -1,17 +1,17 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState } from 'react';
 
-import PlaceList from "../components/PlaceList";
-import { useHttpClient } from "../../shared/hooks/http-hook";
-import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { getPosts } from "../../actions/posts";
-import { AuthContext } from "../../shared/context/auth-context";
-import { getUsers } from "../../actions/users";
+import PlaceList from '../components/PlaceList';
+import { useHttpClient } from '../../shared/hooks/http-hook';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { getPosts } from '../../actions/posts';
+import { AuthContext } from '../../shared/context/auth-context';
+import { getUsers } from '../../actions/users';
 
 const FeedPlaces = () => {
-  const { error, sendRequest, clearError } = useHttpClient();
+  const { error, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState();
   const dispatch = useDispatch();

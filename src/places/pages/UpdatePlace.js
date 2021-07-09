@@ -1,22 +1,21 @@
-import React, { useEffect, useState, useContext } from "react";
-import { useParams, useHistory } from "react-router-dom";
-import Input from "../../shared/components/FormElements/Input";
-import Button from "../../shared/components/FormElements/Button";
-import Card from "../../shared/components/UIElements/Card";
+import React, { useEffect, useContext } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+import Input from '../../shared/components/FormElements/Input';
+import Button from '../../shared/components/FormElements/Button';
+import Card from '../../shared/components/UIElements/Card';
 import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
-} from "../../shared/util/validators";
-import { useForm } from "../../shared/hooks/form-hook";
-import { useHttpClient } from "../../shared/hooks/http-hook";
-import "./PlaceForm.css";
-import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import { AuthContext } from "../../shared/context/auth-context";
-import { useDispatch } from "react-redux";
-import { updatePost } from "../../actions/posts";
-import { useSelector } from "react-redux";
-import { getPost } from "../../actions/posts";
+} from '../../shared/util/validators';
+import { useForm } from '../../shared/hooks/form-hook';
+import { useHttpClient } from '../../shared/hooks/http-hook';
+import './PlaceForm.css';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import { AuthContext } from '../../shared/context/auth-context';
+import { useDispatch } from 'react-redux';
+import { updatePost } from '../../actions/posts';
+import { useSelector } from 'react-redux';
 // const DUMMY_PLACES = [
 //   {
 //     id: "p1",
@@ -42,9 +41,8 @@ import { getPost } from "../../actions/posts";
 
 const UpdatePlace = () => {
   const auth = useContext(AuthContext);
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const { isLoading, error, clearError } = useHttpClient();
 
-  const [loadedPlace, setLoadedPlace] = useState();
   const placeId = useParams().placeId;
   const history = useHistory();
   const dispatch = useDispatch();
@@ -52,11 +50,11 @@ const UpdatePlace = () => {
   const [formState, inputHandler, setFormData] = useForm(
     {
       title: {
-        value: "",
+        value: '',
         isValid: false,
       },
       description: {
-        value: "",
+        value: '',
         isValid: false,
       },
     },
@@ -121,7 +119,7 @@ const UpdatePlace = () => {
       description: formState.inputs.description.value,
     };
     dispatch(updatePost(postUpdates, auth.token, placeId));
-    history.push("/" + auth.userId + "/places");
+    history.push('/' + auth.userId + '/places');
     // try {
     //   await sendRequest(
     //     `${process.env.REACT_APP_BACKEND_URL}/places/${placeId}`,
