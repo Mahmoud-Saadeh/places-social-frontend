@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
@@ -20,6 +20,8 @@ import './PlaceForm.css';
 const NewPlaces = () => {
   const auth = useContext(AuthContext);
   const history = useHistory();
+
+  const [selectedImage, setSelectedImage] = useState();
   const { isLoading, error, clearError } = useHttpClient();
   const dispatch = useDispatch();
 
@@ -49,16 +51,20 @@ const NewPlaces = () => {
   const placeSubmitHandler = async (event) => {
     event.preventDefault();
     try {
-      console.log(formState.inputs.imagePlace.value);
-      const formData = new FormData();
-      formData.append('title', formState.inputs.title.value);
-      formData.append('description', formState.inputs.description.value);
-      formData.append('address', formState.inputs.address.value);
+      const newPostData = {
+        title: formState.inputs.title.value,
+        description: formState.inputs.description.value,
+        address: formState.inputs.address.value,
+        imagePlace: selectedImage,
+      };
+      // const formData = new FormData();
+      // formData.append('title', formState.inputs.title.value);
+      // formData.append('description', formState.inputs.description.value);
+      // formData.append('address', formState.inputs.address.value);
 
-      // formData.append("creator", auth.userId);
-      formData.append('imagePlace', formState.inputs.imagePlace.value); //the 'image' here has to be image because of the backend
+      // formData.append('imagePlace', formState.inputs.imagePlace.value); //the 'image' here has to be image because of the backend
 
-      dispatch(createPost(formData, auth.token));
+      dispatch(createPost(newPostData, auth.token));
 
       // await sendRequest(
       //   process.env.REACT_APP_BACKEND_URL + "/places",
@@ -108,6 +114,7 @@ const NewPlaces = () => {
           id="imagePlace"
           onInput={inputHandler}
           errorText="Please provide an image."
+          setSelectedImage={setSelectedImage}
         />
         <Button type="submit" disabled={!formState.isValid}>
           ADD PLACE

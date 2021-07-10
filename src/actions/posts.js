@@ -67,10 +67,11 @@ export const getPostsByUser = (userId, setIsLoadingMe) => async (dispatch) => {
 export const createPost = (formData, token) => async (dispatch) => {
   const CancelToken = axios.CancelToken;
   const source = CancelToken.source();
-  console.log(formData.description);
+
   axios
     .post(
       process.env.REACT_APP_BACKEND_URL + '/places',
+      // JSON.stringify(formData),
       formData,
       {
         headers: {
@@ -83,6 +84,7 @@ export const createPost = (formData, token) => async (dispatch) => {
     )
     .then(function (response) {
       dispatch({ type: CREATE, payload: response.data.place });
+      // console.log(response.data);
     })
     .catch(function (error) {
       if (axios.isCancel(error)) {

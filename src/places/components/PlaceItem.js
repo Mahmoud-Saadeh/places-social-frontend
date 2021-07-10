@@ -176,7 +176,8 @@ const PlaceItem = (props) => {
             <div className="post-header-user">
               <Avatar
                 className="image"
-                image={`${process.env.REACT_APP_ASSET_URL}/${img}`}
+                // image={`${process.env.REACT_APP_ASSET_URL}/${img}`}
+                image={`${img}`}
                 alt={name}
               />
               <div className="place-item__profile-info">
@@ -217,7 +218,8 @@ const PlaceItem = (props) => {
           </div>
           <div className="place-item__image">
             <img
-              src={`${process.env.REACT_APP_ASSET_URL}/${props.imagePlace}`}
+              // src={`${process.env.REACT_APP_ASSET_URL}/${props.imagePlace}`}
+              src={`${props.imagePlace}`}
               alt={props.title}
             />
           </div>

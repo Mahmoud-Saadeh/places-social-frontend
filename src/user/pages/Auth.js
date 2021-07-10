@@ -1,35 +1,36 @@
-import React, { useState, useContext } from "react";
-import Card from "../../shared/components/UIElements/Card";
-import Input from "../../shared/components/FormElements/Input";
-import Button from "../../shared/components/FormElements/Button";
-import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-import ImageUpload from "../../shared/components/FormElements/ImageUpload";
+import React, { useState, useContext } from 'react';
+import Card from '../../shared/components/UIElements/Card';
+import Input from '../../shared/components/FormElements/Input';
+import Button from '../../shared/components/FormElements/Button';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
-} from "../../shared/util/validators";
-import { useForm } from "../../shared/hooks/form-hook";
-import { AuthContext } from "../../shared/context/auth-context";
-import { useHttpClient } from "../../shared/hooks/http-hook";
-
-import "./Auth.css";
+} from '../../shared/util/validators';
+import { useForm } from '../../shared/hooks/form-hook';
+import { AuthContext } from '../../shared/context/auth-context';
+import { useHttpClient } from '../../shared/hooks/http-hook';
+import axios from 'axios';
+import './Auth.css';
 // var axios = require("axios");
 const Auth = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
+  const [selectedImage, setSelectedImage] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
       email: {
-        value: "",
+        value: '',
         isValid: false,
       },
       password: {
-        value: "",
+        value: '',
         isValid: false,
       },
     },
@@ -42,13 +43,13 @@ const Auth = () => {
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
-          process.env.REACT_APP_BACKEND_URL + "/users/login",
-          "POST",
+          process.env.REACT_APP_BACKEND_URL + '/users/login',
+          'POST',
           JSON.stringify({
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
           }),
-          { "Content-Type": "application/json" }
+          { 'Content-Type': 'application/json' }
         );
         auth.login(responseData.userId, responseData.token);
       } catch (error) {
@@ -81,18 +82,36 @@ const Auth = () => {
         const email = formState.inputs.email.value;
         const formData = new FormData();
 
-        formData.append("name", formState.inputs.name.value);
-        formData.append("password", formState.inputs.password.value);
-        formData.append("email", email);
-        formData.append("image", formState.inputs.image.value);
+        formData.append('name', formState.inputs.name.value);
+        formData.append('password', formState.inputs.password.value);
+        formData.append('email', email);
+        formData.append('image', formState.inputs.image.value);
 
-        const responseData = await sendRequest(
-          process.env.REACT_APP_BACKEND_URL + "/users/signup",
-          "POST",
-          formData
-        );
+        const newUserData = {
+          name: formState.inputs.name.value,
+          password: formState.inputs.password.value,
+          email: email,
+          image: selectedImage,
+        };
 
-        auth.login(responseData.userId, responseData.token);
+        console.log(newUserData);
+        axios
+          .post(
+            process.env.REACT_APP_BACKEND_URL + '/users/signup',
+            // JSON.stringify(formData),
+            newUserData
+          )
+          .then((res) => {
+            auth.login(res.data.userId, res.data.token);
+          });
+        // const responseData = await sendRequest(
+        //   process.env.REACT_APP_BACKEND_URL + '/users/signup',
+        //   'POST',
+        //   // newUserData
+        //   JSON.stringify(newUserData)
+        // );
+
+        // auth.login(responseData.userId, responseData.token);
       } catch (error) {
         console.log(error);
       }
@@ -114,7 +133,7 @@ const Auth = () => {
         {
           ...formState.inputs,
           name: {
-            value: "",
+            value: '',
             isValid: false,
           },
           image: {
@@ -154,6 +173,7 @@ const Auth = () => {
               id="image"
               onInput={inputHandler}
               errorText="Please provide an image."
+              setSelectedImage={setSelectedImage}
             />
           )}
           <Input
@@ -175,11 +195,11 @@ const Auth = () => {
             onInput={inputHandler}
           />
           <Button type="submit" disabled={!formState.isValid}>
-            {isLoginMode ? "LOGIN" : "SIGNUP"}
+            {isLoginMode ? 'LOGIN' : 'SIGNUP'}
           </Button>
         </form>
         <Button inverse onClick={switchModeHandler}>
-          SWITCH TO {isLoginMode ? "SIGNUP" : "LOGIN"}
+          SWITCH TO {isLoginMode ? 'SIGNUP' : 'LOGIN'}
         </Button>
       </Card>
     </React.Fragment>
