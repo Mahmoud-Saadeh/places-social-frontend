@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import MainHeader from "./MainHeader";
-import NavLinks from "./NavLinks";
-import SideDrawer from "./SideDrawer";
-import { Link } from "react-router-dom";
-import Backdrop from "../UIElements/Backdrop";
-import { CSSTransition } from "react-transition-group";
+import React, { useState } from 'react';
+import MainHeader from './MainHeader';
+import NavLinks from './NavLinks';
+import SideDrawer from './SideDrawer';
+import { Link } from 'react-router-dom';
+import Backdrop from '../UIElements/Backdrop';
+import { CSSTransition } from 'react-transition-group';
 
-import "./MainNavigation.css";
+import './MainNavigation.css';
 const MainNavigation = (props) => {
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
@@ -42,7 +42,7 @@ const MainNavigation = (props) => {
           <span></span>
         </button>
         <h1 className="main-navigation__title">
-          <Link to="/">SUBLINE</Link>
+          <Link to="/">MS Places</Link>
         </h1>
         <nav className="main-navigation__header-nav">
           <NavLinks />

@@ -1,36 +1,20 @@
 import React, { useState } from 'react';
-import ReactMapGl, { Marker } from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import Geocode from 'react-geocode';
 import markerImage from '../../svg/pin.svg';
 import './Map.css';
+import ReactMapGl, { Marker } from 'react-map-gl';
+import mapboxgl from 'mapbox-gl';
+mapboxgl.workerClass =
+  // eslint-disable-next-line import/no-webpack-loader-syntax
+  require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 const Map = (props) => {
   const [viewport, setViewport] = useState({
     latitude: +props.center.lat,
     longitude: +props.center.lng,
     width: '100%',
-    height: '500px',
+    height: '400px',
     zoom: 12,
   });
-  Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_KEY);
-  // const mapRef = useRef();
-  // const { center, zoom } = props;
-  // useEffect(() => {
-  //   const map = new window.google.maps.Map(mapRef.current, {
-  //     center: center,
-  //     zoom: zoom,
-  //   });
-  //   new window.google.maps.Marker({ position: center, map: map });
-  // }, [center, zoom]);
-
-  // return (
-  //   <div
-  //     ref={mapRef}
-  //     className={`map ${props.className}`}
-  //     style={props.style}
-  //   ></div>
-  // );
   return (
     <ReactMapGl
       {...viewport}
