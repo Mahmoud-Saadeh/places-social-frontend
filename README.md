@@ -2,6 +2,8 @@
 
 ## [BackEnd Repo](https://github.com/Mahmoud-Saadeh/places-social-backend)
 
+## [FrontEnd URL](https://ms-places-share.netlify.app/)
+
 ## problem Domain
 
 Make finding a good place to go to easier and record every beautiful memory about any place you went to, by sharing it with an image, title, description and address with the ability to open a map using MapBox
@@ -23,6 +25,7 @@ You can either create an account and explore, interact and share with all the us
 1. redux
 1. react-transition-group
 1. redux-thunk
+1. worker-loader
 
 ## Credit
 
